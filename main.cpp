@@ -37,12 +37,64 @@ int main() {
         }
     }
 
+    cin.ignore();
     string polynomials[length];
+
+    for (int i = 0; i < length;i++)
+    {
+        string check;
+
+        cout << "Input polynomial " << i+1 << " -> ";
+        getline(cin,check);
+        cout << endl;
+
+        while(Check_error(check))
+        {
+            cout << "Input Error: please input a correct polynomial" << endl;
+            cout << "Input polynomial " << i+1 << " -> ";
+            getline(cin,check);
+            cout << endl;
+        }
+            polynomials[i] = check;
+    }
+    for (int i = 0; i < length;i++)
+    {
+        cout << polynomials[i] << endl;
+    }
+
 }
 
-bool Check_error(string)
+bool Check_error(string polynomial)
 {
     bool error;
+    int length;
+    length = polynomial.length();
+//Check terminal cases that do not require iterating through the string//
+    if (polynomial[0] == '^' || polynomial[0] == '*' || polynomial[length - 1] == '*' || polynomial[length - 1] == '^')
+    {
+        return !error;
+    }
+//Check terminal cases that require iterating through the string//
+    for (int i = 0; i < length;i++)
+    {
+        if (!isdigit(polynomial[i]) && polynomial[i] != 'x' && polynomial[i] != 'X' && polynomial[i]!='^' && polynomial[i] != ' ' && polynomial[i] != '+' && polynomial[i] != '-')
+        {
+            return !error;
+        }
+//Check that carat is properly connected as an exponent
+        else if (polynomial[i] == '^')
+        {
+            if (polynomial[i -1] != 'X' && polynomial[i -1] != 'x')
+            {
+                return !error;
+            }
+
+            else if (!isdigit(polynomial[i + 1])){
+                return !error;
+            }
+        }
+    }
+
     return error;
 }
 
