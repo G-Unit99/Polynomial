@@ -24,7 +24,7 @@ class polynomial
             head = nullptr;
             tail = nullptr;
         }
-
+//Function to create polynomial_nodes for the linked list//
         void create_polynomial_node(int coefficient,int exponent)
         {
             Polynomial_node *temp = new Polynomial_node;
@@ -44,13 +44,16 @@ class polynomial
                 tail = temp;
             }
         }
-
-        Polynomial_node Add_Poly(Polynomial_node,Polynomial_node)
+//Functions to add polynomials//
+        Polynomial_node Add_Poly(Polynomial_node a,Polynomial_node b)
         {
+            if (a.Exponent == b.Exponent)
+            {
 
+            }
         }
 
-        Polynomial_node Multiply_Poly(Polynomial_node,Polynomial_node)
+        Polynomial_node Multiply_Poly(Polynomial_node a,Polynomial_node b)
         {
 
         }
@@ -63,6 +66,8 @@ int main() {
 //Define Variables//
     const int Max_value = 14;
     const int Min_value = 2;
+    string coefficient = "";
+    string exponent = "";
     int length = 0;
 
 // Beginning prompt//
@@ -84,12 +89,14 @@ int main() {
         }
     }
 
-//Define an array of linked list for polynomials//
+//Define an array of linked list for the polynomials//
     cin.ignore();
     polynomial polynomials[length];
 
     for (int i = 0; i < length;i++)
     {
+        int nodes = 0;
+        int count = 0;
         string check = "";
         string no_space = "";
 
@@ -108,6 +115,7 @@ int main() {
 //Check for errors in user input//
         while (Check_error(no_space))
         {
+//Have user input another polynomial if error occurs//
             no_space = "";
             cout << "Input Error: please input a correct polynomial" << endl;
             cout << "Input polynomial " << i+1 << " -> ";
@@ -125,12 +133,86 @@ int main() {
 // Parse through error checked input to place values in linked list array//
         for (int i = 0; i < no_space.length();i++)
         {
-            polynomials[i] = no_space;
+//If character equals ^ do nothing//
+            if (no_space[i] != '^')
+            {
+
+            }
+//If character does not equal x or X parse the coefficient//
+            else if (no_space[i] != 'x' && no_space[i] != 'X' && count == 0)
+            {
+                coefficient += no_space[i];
+            }
+//If character is equal to x or X increase the count and parse the exponent//
+            else if (no_space[i] == 'x' || no_space[i] =='X')
+            {
+                count = 1;
+//check if the exponent is raised to the power of 1//
+                if (no_space[i+1] != '^')
+                {
+                    exponent = "1";
+// Check for sign instead of numeric coefficient value//
+                    if (no_space[i-1] == '+')
+                    {
+                        coefficient = "1";
+                        polynomials[nodes].create_polynomial_node(stoi(coefficient),stoi(exponent));
+                        coefficient = "";
+                        exponent = "";
+                        nodes += 1;
+                        count = 0;
+                    }
+                    else if (no_space[i-1] == '-')
+                    {
+                        coefficient = "-1";
+                        polynomials[nodes].create_polynomial_node(stoi(coefficient),stoi(exponent));
+                        coefficient = "";
+                        exponent = "";
+                        nodes += 1;
+                        count = 0;
+                    }
+                    else
+                    {
+                        polynomials[nodes].create_polynomial_node(stoi(coefficient),stoi(exponent));
+                        coefficient = "";
+                        exponent = "";
+                        nodes += 1;
+                        count = 0;
+                    }
+                }
+            }
+//Check for operands to signal creation of polynomial node//
+            else if ((no_space[i] == '+' || no_space[i] == '-') && count == 1 && no_space[i-1] != '^')
+            {
+                polynomials[nodes].create_polynomial_node(stoi(coefficient), stoi(exponent));
+                count = 0;
+                nodes += 1;
+                coefficient = no_space[i];
+                exponent = "";
+            }
+//Parse exponent//
+            else if (count == 1)
+            {
+                exponent += no_space[i];
+            }
+//Check final term, which may or may not have an exponent attached to it//
+            else if (i == no_space.length()-1)
+            {
+                if (exponent == "")
+                {
+                    exponent = "0";
+                }
+                if (coefficient == "")
+                {
+                    coefficient = "0";
+                }
+                polynomials[nodes].create_polynomial_node(stoi(coefficient), stoi(exponent));
+            }
         }
     }
+
     for (int i = 0; i < length;i++)
     {
-        cout << i << " " << polynomials[i] << endl;
+
     }
 
 }
