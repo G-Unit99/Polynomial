@@ -44,17 +44,39 @@ class polynomial
                 tail = temp;
             }
         }
-//Functions to add polynomials//
-        Polynomial_node Add_Poly(Polynomial_node a,Polynomial_node b)
+//Function to display the values in the linked list//
+        void Display_List()
         {
-            if (a.Exponent == b.Exponent)
+            Polynomial_node *temp = new Polynomial_node;
+            temp = head;
+
+            while(temp!= nullptr)
+            {
+                cout << temp->Exponent << endl;
+                cout << temp->Coefficient << endl;
+                temp = temp->next;
+            }
+        }
+//Functions to add polynomials//
+        Polynomial_node Add_Poly(Polynomial_node one,Polynomial_node two)
+        {
+            Polynomial_node *sum = new Polynomial_node;
+
+            if (one.Exponent == two.Exponent)
             {
 
             }
+
         }
 
-        Polynomial_node Multiply_Poly(Polynomial_node a,Polynomial_node b)
+        Polynomial_node Multiply_Poly(Polynomial_node one,Polynomial_node two)
         {
+            Polynomial_node *sum = new Polynomial_node;
+
+            if (one.Exponent == two.Exponent)
+            {
+
+            }
 
         }
 };
@@ -69,6 +91,7 @@ int main() {
     string coefficient = "";
     string exponent = "";
     int length = 0;
+    int nodes = 0;
 
 // Beginning prompt//
     cout << "This is a program that Adds and Multiplies at least two, and up to fourteen polynomials." << endl;
@@ -95,7 +118,6 @@ int main() {
 
     for (int i = 0; i < length;i++)
     {
-        int nodes = 0;
         int count = 0;
         string check = "";
         string no_space = "";
@@ -134,7 +156,7 @@ int main() {
         for (int i = 0; i < no_space.length();i++)
         {
 //If character equals ^ do nothing//
-            if (no_space[i] != '^')
+            if (no_space[i] == '^')
             {
 
             }
@@ -142,13 +164,37 @@ int main() {
             else if (no_space[i] != 'x' && no_space[i] != 'X' && count == 0)
             {
                 coefficient += no_space[i];
+                if (i == no_space.length()-1)
+                {
+                    exponent = "0";
+                    polynomials[nodes].create_polynomial_node(stoi(coefficient), stoi(exponent));
+                    coefficient = "";
+                }
             }
 //If character is equal to x or X increase the count and parse the exponent//
             else if (no_space[i] == 'x' || no_space[i] =='X')
             {
                 count = 1;
+                if (i == no_space.length()-1)
+                {
+                    exponent = "1";
+                    if (coefficient == "" || coefficient == "+")
+                    {
+                        coefficient = "1";
+                        polynomials[nodes].create_polynomial_node(stoi(coefficient),stoi(exponent));
+                    }
+                    else if (coefficient == "-")
+                    {
+                        coefficient = "-1";
+                        polynomials[nodes].create_polynomial_node(stoi(coefficient),stoi(exponent));
+                    }
+                    else
+                    {
+                        polynomials[nodes].create_polynomial_node(stoi(coefficient),stoi(exponent));
+                    }
+                }
 //check if the exponent is raised to the power of 1//
-                if (no_space[i+1] != '^')
+                else if (no_space[i+1] != '^')
                 {
                     exponent = "1";
 // Check for sign instead of numeric coefficient value//
@@ -158,7 +204,6 @@ int main() {
                         polynomials[nodes].create_polynomial_node(stoi(coefficient),stoi(exponent));
                         coefficient = "";
                         exponent = "";
-                        nodes += 1;
                         count = 0;
                     }
                     else if (no_space[i-1] == '-')
@@ -167,7 +212,6 @@ int main() {
                         polynomials[nodes].create_polynomial_node(stoi(coefficient),stoi(exponent));
                         coefficient = "";
                         exponent = "";
-                        nodes += 1;
                         count = 0;
                     }
                     else
@@ -175,7 +219,6 @@ int main() {
                         polynomials[nodes].create_polynomial_node(stoi(coefficient),stoi(exponent));
                         coefficient = "";
                         exponent = "";
-                        nodes += 1;
                         count = 0;
                     }
                 }
@@ -185,7 +228,6 @@ int main() {
             {
                 polynomials[nodes].create_polynomial_node(stoi(coefficient), stoi(exponent));
                 count = 0;
-                nodes += 1;
                 coefficient = no_space[i];
                 exponent = "";
             }
@@ -193,6 +235,10 @@ int main() {
             else if (count == 1)
             {
                 exponent += no_space[i];
+                if (i == no_space.length()-1)
+                {
+                    polynomials[nodes].create_polynomial_node(stoi(coefficient), stoi(exponent));
+                }
             }
 //Check final term, which may or may not have an exponent attached to it//
             else if (i == no_space.length()-1)
@@ -208,11 +254,13 @@ int main() {
                 polynomials[nodes].create_polynomial_node(stoi(coefficient), stoi(exponent));
             }
         }
+        nodes += 1;
     }
 
     for (int i = 0; i < length;i++)
     {
-
+        cout<< "yer " << i << endl;
+        polynomials[i].Display_List();
     }
 
 }
