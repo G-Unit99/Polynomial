@@ -169,6 +169,7 @@ int main() {
                     exponent = "0";
                     polynomials[nodes].create_polynomial_node(stoi(coefficient), stoi(exponent));
                     coefficient = "";
+                    exponent = "";
                 }
             }
 //If character is equal to x or X increase the count and parse the exponent//
@@ -182,15 +183,21 @@ int main() {
                     {
                         coefficient = "1";
                         polynomials[nodes].create_polynomial_node(stoi(coefficient),stoi(exponent));
+                        coefficient = "";
+                        exponent = "";
                     }
                     else if (coefficient == "-")
                     {
                         coefficient = "-1";
                         polynomials[nodes].create_polynomial_node(stoi(coefficient),stoi(exponent));
+                        coefficient = "";
+                        exponent = "";
                     }
                     else
                     {
                         polynomials[nodes].create_polynomial_node(stoi(coefficient),stoi(exponent));
+                        coefficient = "";
+                        exponent = "";
                     }
                 }
 //check if the exponent is raised to the power of 1//
@@ -227,9 +234,9 @@ int main() {
             else if ((no_space[i] == '+' || no_space[i] == '-') && count == 1 && no_space[i-1] != '^')
             {
                 polynomials[nodes].create_polynomial_node(stoi(coefficient), stoi(exponent));
-                count = 0;
                 coefficient = no_space[i];
                 exponent = "";
+                count = 0;
             }
 //Parse exponent//
             else if (count == 1)
@@ -238,20 +245,10 @@ int main() {
                 if (i == no_space.length()-1)
                 {
                     polynomials[nodes].create_polynomial_node(stoi(coefficient), stoi(exponent));
+                    coefficient = "";
+                    exponent = "";
+                    count = 0;
                 }
-            }
-//Check final term, which may or may not have an exponent attached to it//
-            else if (i == no_space.length()-1)
-            {
-                if (exponent == "")
-                {
-                    exponent = "0";
-                }
-                if (coefficient == "")
-                {
-                    coefficient = "0";
-                }
-                polynomials[nodes].create_polynomial_node(stoi(coefficient), stoi(exponent));
             }
         }
         nodes += 1;
