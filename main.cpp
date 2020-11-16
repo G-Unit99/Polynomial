@@ -166,7 +166,7 @@ int main() {
                 coefficient += no_space[i];
                 if (i == no_space.length()-1)
                 {
-                    exponent = "0";
+                    exponent = "1";
                     polynomials[nodes].create_polynomial_node(stoi(coefficient), stoi(exponent));
                     coefficient = "";
                     exponent = "";
@@ -244,10 +244,26 @@ int main() {
                 exponent += no_space[i];
                 if (i == no_space.length()-1)
                 {
-                    polynomials[nodes].create_polynomial_node(stoi(coefficient), stoi(exponent));
-                    coefficient = "";
-                    exponent = "";
-                    count = 0;
+                    if (coefficient == "" || coefficient == "+")
+                    {
+                        coefficient = "1";
+                        polynomials[nodes].create_polynomial_node(stoi(coefficient),stoi(exponent));
+                        coefficient = "";
+                        exponent = "";
+                    }
+                    else if (coefficient == "-")
+                    {
+                        coefficient = "-1";
+                        polynomials[nodes].create_polynomial_node(stoi(coefficient),stoi(exponent));
+                        coefficient = "";
+                        exponent = "";
+                    }
+                    else
+                    {
+                        polynomials[nodes].create_polynomial_node(stoi(coefficient),stoi(exponent));
+                        coefficient = "";
+                        exponent = "";
+                    }
                 }
             }
         }
