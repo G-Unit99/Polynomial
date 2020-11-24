@@ -52,24 +52,81 @@ class polynomial
 
             while(temp!= nullptr)
             {
-                cout << temp->Exponent << endl;
-                cout << temp->Coefficient << endl;
-                temp = temp->next;
+                if (temp->next != nullptr)
+                {
+                    if (temp->Exponent == 0)
+                    {
+                        cout << temp->Coefficient << " ";
+                        temp = temp->next;
+                    }
+                    else if (temp->Exponent == 1)
+                    {
+                        if (temp->Coefficient == 1)
+                        {
+                            cout << "x" << " ";
+                            temp = temp->next;
+                        }
+                        else
+                        {
+                            cout << temp->Coefficient << "x" << " ";
+                            temp = temp->next;
+                        }
+                    }
+                    else
+                    {
+                        cout << temp->Coefficient << "x^" << temp->Exponent << " ";
+                        temp = temp->next;
+                    }
+                }
+                else
+                {
+                    if (temp->Exponent == 0)
+                    {
+                        cout << "+ " <<temp->Coefficient;
+                        temp = temp->next;
+                    }
+                    else if (temp->Exponent == 1)
+                    {
+                        if (temp->Coefficient == 1)
+                        {
+                            cout << "+ " << "x";
+                            temp = temp->next;
+                        }
+                        else
+                        {
+                            cout << "+ " << temp->Coefficient << "x";
+                            temp = temp->next;
+                        }
+                    }
+                    else
+                    {
+                        cout << "+ " << temp->Coefficient << "x^" << temp->Exponent;
+                        temp = temp->next;
+                    }
+                }
             }
         }
 //Functions to add polynomials//
-        Polynomial_node Add_Poly(Polynomial_node one,Polynomial_node two)
+        Polynomial_node* Add_Poly(Polynomial_node one,Polynomial_node two)
         {
             Polynomial_node *sum = new Polynomial_node;
+            sum ->Coefficient = 0;
+            sum->Exponent = 0;
 
-            if (one.Exponent == two.Exponent)
-            {
 
-            }
+                if (one.Exponent == two.Exponent)
+                {
+                    sum->Exponent = one.Exponent;
+                    sum->Coefficient = (one.Coefficient + two.Coefficient);
+                }
+                cout << sum->Coefficient << endl;
+                cout << sum->Exponent << endl;
 
+
+            return sum;
         }
 
-        Polynomial_node Multiply_Poly(Polynomial_node one,Polynomial_node two)
+        Polynomial_node* Multiply_Poly(Polynomial_node one,Polynomial_node two)
         {
             Polynomial_node *sum = new Polynomial_node;
 
@@ -166,7 +223,7 @@ int main() {
                 coefficient += no_space[i];
                 if (i == no_space.length()-1)
                 {
-                    exponent = "1";
+                    exponent = "0";
                     polynomials[nodes].create_polynomial_node(stoi(coefficient), stoi(exponent));
                     coefficient = "";
                     exponent = "";
@@ -270,10 +327,21 @@ int main() {
         nodes += 1;
     }
 
+    cout << "(";
+
     for (int i = 0; i < length;i++)
     {
-        cout<< "yer " << i << endl;
-        polynomials[i].Display_List();
+        if ( i == length - 1)
+        {
+            polynomials[i].Display_List();
+            cout << ")";
+        }
+        else
+        {
+            polynomials[i].Display_List();
+            cout << " + ";
+        }
+
     }
 
 }
